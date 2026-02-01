@@ -16,14 +16,13 @@ struct DessertDetailView: View {
     }
     
     var body: some View {
-        
         VStack {
             switch model.state {
                 
             case .initial, .loading:
                 ProgressView()
             case .loaded(let mealDetail):
-                MealDetailView(mealDetail)
+                MealDetailView(model: mealDetail)
             case .failed(let error):
                 Text(error.localizedDescription)
             }
@@ -34,35 +33,7 @@ struct DessertDetailView: View {
         }
     }
     
-    @ViewBuilder
-    private func MealDetailView(_ meal: MealDetail) -> some View {
-        ScrollView {
-            VStack(spacing: 24) {
-                AsyncImage(url: meal.thumb) { image in
-                    image.resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .cornerRadius(15.0)
-                    
-                } placeholder: {
-                    ProgressView()
-                }
-                
-                Text(meal.instructions)
-                    .font(.body)
-                ForEach(meal.ingredients, id: \.id) { ingredient in
-                    HStack(spacing: 16) {
-                        Text(ingredient.name)
-                            .font(.caption)
-                        Spacer()
-                        Text(ingredient.measure)
-                            .font(.caption)
-                    }
-                }
-            }
-            .navigationTitle(meal.name)
-            .padding()
-        }
-    }
+
 }
 
 #Preview {

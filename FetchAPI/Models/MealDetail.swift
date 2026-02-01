@@ -73,3 +73,13 @@ struct MealDetail: Decodable {
     }
     
 }
+
+extension MealDetail {
+    
+    init(name: String, thumb: URL?, instructions: String, ingredients: [Ingredient]) {
+        self.name = name
+        self.thumb = thumb
+        self.instructions = instructions
+        self.ingredients = ingredients
+    }
+}
