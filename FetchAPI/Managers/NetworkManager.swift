@@ -14,11 +14,6 @@ enum APIEndPoint {
     }
 }
 
-enum ServiceErrors: Error {
-    case internalError(_ statusCode: Int)
-    case serverError(_ statusCode: Int)
-}
-
 
 protocol NetworkProtocol {
     func fetch<T>(_ url: URL) async throws -> T where T : Decodable
@@ -37,29 +32,50 @@ final class NetworkManager: NetworkProtocol {
     
     private let decoder = JSONDecoder()
     
+    private var errorService: NetworkHTTPResponseService?
+    
     // Initializer allowing for dependency injection of a URLSession, defaults to the shared session.
     init(urlSession: URLSession = .shared) {
         self.urlSession = urlSession
     }
     
-    func fetch<T>(_ url: URL) async throws -> T where T : Decodable {
-        // Perform the URL session data task asynchronously, suspending until completion.
-        let (data, response) = try await urlSession.data(from: url)
+    func fetch<T>(_ url: URL) async throws(NetworkHTTPResponseService) -> T where T : Decodable {
+        let data: Data
+        let response: URLResponse
         
-        // handle error
-        guard let httpResponse = response as? HTTPURLResponse,
-              200..<300 ~= httpResponse.statusCode else {
-            switch (response as! HTTPURLResponse).statusCode {
-            case (400...499):
-                throw ServiceErrors.internalError(( response as! HTTPURLResponse).statusCode)
+        do {
+            (data, response) = try await urlSession.data(from: url)
+        } catch let error as URLError {
+            switch error.code {
+            case .badURL:
+                throw NetworkHTTPResponseService.badRequest(codeError: .badURL)
+            case .timedOut:
+                throw NetworkHTTPResponseService.badRequest(codeError: .timedOut)
             default:
-                throw ServiceErrors.serverError(( response as! HTTPURLResponse).statusCode)
+                throw NetworkHTTPResponseService.badRequest(codeError: .unknown)
             }
+        } catch {
+             throw NetworkHTTPResponseService.badRequest(codeError: .unknown)
         }
         
-        // Parse the JSON data
-        let result = try decoder.decode(T.self, from: data)
-        return result
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkHTTPResponseService.badRequest(codeError: .invalidResponse)
+        }
+        
+        let responseStatus = NetworkHTTPResponseService(urlResponse: httpResponse)
+        
+        switch responseStatus {
+        case .successfulResponse:
+            do {
+                let result = try decoder.decode(T.self, from: data)
+                return result
+            } catch {
+                throw NetworkHTTPResponseService.badRequest(codeError: .decodingError)
+            }
+        default:
+            throw responseStatus
+        }
     }
+    
 }
 

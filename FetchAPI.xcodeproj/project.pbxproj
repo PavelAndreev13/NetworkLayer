@@ -21,6 +21,7 @@
 		DDC949042BBD1F3300C0A6B3 /* MealsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC949032BBD1F3300C0A6B3 /* MealsResponse.swift */; };
 		DDC949062BBD206D00C0A6B3 /* DessertDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC949052BBD206D00C0A6B3 /* DessertDetailViewModel.swift */; };
 		DDC949082BBD303400C0A6B3 /* MealManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC949072BBD303400C0A6B3 /* MealManager.swift */; };
+		DDE7665C2F3912BD00CF3C7D /* NetworkResponseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE7665B2F39125000CF3C7D /* NetworkResponseService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		DDC949032BBD1F3300C0A6B3 /* MealsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsResponse.swift; sourceTree = "<group>"; };
 		DDC949052BBD206D00C0A6B3 /* DessertDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertDetailViewModel.swift; sourceTree = "<group>"; };
 		DDC949072BBD303400C0A6B3 /* MealManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealManager.swift; sourceTree = "<group>"; };
+		DDE7665B2F39125000CF3C7D /* NetworkResponseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponseService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 		DD26D4832BBB486E00445C98 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				DDE7665B2F39125000CF3C7D /* NetworkResponseService.swift */,
 				DD26D4882BBB48EB00445C98 /* NetworkManager.swift */,
 				DDC949072BBD303400C0A6B3 /* MealManager.swift */,
 			);
@@ -210,6 +213,7 @@
 				DD331CD62F2FCCDC007B8617 /* MealDetailView.swift in Sources */,
 				DD26D48C2BBB4B6900445C98 /* Meals.swift in Sources */,
 				DDC949062BBD206D00C0A6B3 /* DessertDetailViewModel.swift in Sources */,
+				DDE7665C2F3912BD00CF3C7D /* NetworkResponseService.swift in Sources */,
 				DD26D4852BBB487F00445C98 /* MainView.swift in Sources */,
 				DDC949042BBD1F3300C0A6B3 /* MealsResponse.swift in Sources */,
 				DD26D48E2BBB4F7700445C98 /* MealDetail.swift in Sources */,
